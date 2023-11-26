@@ -1,0 +1,16 @@
+{% extends "homebase.html" %}
+{% block head %}
+    <meta name = "description" content="Home page for STI data collection">
+{% endblock head %}
+{% block title %}<title>Home</title>{% endblock title %}
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mt-4">Congenital Syphilis, Case Investigation and Report</h1>
+    <h3>Reporting Information</h3>
+    <div class="msg">{{ msg }}</div>
+    <form action="{{ url_for('sti') }}" method="post">
+        
+    </form> 
+</div>
+{% endblock content %}
+

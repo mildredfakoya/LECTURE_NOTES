@@ -1,0 +1,145 @@
+{% extends "homebase.html" %}
+{% block head %}
+    <meta name = "description" content="Home page for STI data collection">
+{% endblock head %}
+{% block title %}<title>Home</title>{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    Hi {{session.username}}!!</br></br> Welcome to STI Data Collection System
+
+<div class ="row">
+<div class ="col-md-7">
+   <div class ="card">
+    <div class ="card-header bg-danger">
+    <p class="mt-4">Register a new client</p>
+    </div>
+    <div class ="card-body">
+        <p> Client Registration form</p>
+        <form method ="post" action ="{{ url_for('register_client') }}">
+            <div class ="form-group">
+                <label for="client_id">Client ID</label>
+                <input type="text" class="form-control" id="client_id" name="unique_id" placeholder="Enter Client ID">
+            </div>
+            <div class ="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name">
+            </div>
+            <div class ="form-group">
+                <label for="middle_name">Middle Name</label>
+                <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Enter Middle Name">
+            </div>
+            <div class ="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name">
+            </div> 
+
+            <div class ="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="dob" placeholder="Date of birth">
+            </div> 
+
+            <div class ="form-group">
+                <label for="country-of-birth">Country of birth</label>
+                <input type="text" class="form-control" id="country-of-birth" name="country_of_birth" placeholder="Country of birth">
+            </div>
+            
+            <div class ="form-group">
+                <label for="gender">Sex: </label><br/>
+                <input type="radio"  id="gender" name="gender" value = "female"> Female
+                <input type="radio" id="gender" name="gender" value = "male"> Male
+                <input type="radio" id="gender" name="gender" value = "intersex"> Intersex
+            </div>
+            <hr/>
+            <div class ="form-group">
+                <label for="marital-status">Marital Status:</label><br/>
+                <input type="radio" id="marital-status" name="marital-status" value ="single"> single
+                <input type="radio" id="marital-status" name="marital-status" value ="married"> married
+                <input type="radio" id="marital-status" name="marital-status" value ="divorced"> divorced
+                <input type="radio" id="marital-status" name="marital-status" value ="widowed"> widowed
+                <input type="radio" id="marital-status" name="marital-status" value ="separated"> separated
+                <input type="radio" id="marital-status" name="marital-status" value ="cohabiting"> cohabiting
+                <input type="radio" id="marital-status" name="marital-status" value ="other"> other
+            </div>
+            <hr/>
+
+
+            <div class ="form-group">
+                <label for="occupation">Occupation: </label><br/>
+                <input type="radio" id="occupation" name="occupation" value="employed">employed
+                <input type="radio" id="occupation" name="occupation" value="unemployed">unemployed
+                <input type="radio" id="occupation" name="occupation" value="student">student
+                <input type="radio" id="occupation" name="occupation" value="retired">retired
+                <input type="radio" id="occupation" name="occupation" value="housewife">housewife
+                <input type="radio" id="occupation" name="occupation" value="self-employed">self-employed
+                <input type="radio" id="occupation" name="occupation" value="other">other
+
+            </div>
+            <hr/>
+            
+            <div class ="form-group">
+                <label for="gender-identity">Gender Identity</label>
+                <input type="text" class="form-control" id="gender-identity" name="gender-identity" placeholder="Gender identity">
+            </div>
+           <hr/>
+            <div class ="form-group">
+                <label for="sexual-orientation">Sexual Orientation</label>
+                <input type="text" class="form-control" id="sexual-orientation" name="sexual-orientation" placeholder="Sexual Orientation">
+            </div>
+            <hr/>
+            <div class ="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone">
+            </div>
+            <hr/>
+            <div class ="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="line1" placeholder="Address line 1">
+                <input type="text" class="form-control" name="city" placeholder="City">
+                <input type="text" class="form-control" name="state" placeholder="State">
+                <input type="text" class="form-control" name="zip-code" placeholder="Zip">
+                <input type="text" class="form-control" name="country" placeholder="Country">
+            </div>
+            <hr/>
+            <div class ="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email address">
+            </div>
+            <hr/>
+            <div class ="form-group">
+                <label for="ethnicity">Ethnicity</label>
+                <input type="text" class="form-control" id="ethnicity" name="ethnicity" placeholder="Ethnicity">
+            </div>
+            <hr/>
+            <div class ="form-group">
+                <label for="race">Race</label>
+                <input type="text" class="form-control" id="race" name="race" placeholder="race">
+            </div>
+            <hr/>
+            <input type ="submit" value = "Register Client" class ="btn btn-danger"> 
+        </form>
+    </div>
+    </div>
+</div>
+<div class = "col-md-5">
+    <div class ="card">
+    <div class = "card-header bg-info"><p class="mt-4">Get client Information</p></div>
+    <div class ="card-body">
+        <p>Retrieve Information</p>
+        <div class="msg">{{ msg }}</div>
+        <form method ="post" action ="{{ url_for('retrieve_client') }}">
+            
+        <div class ="form-group">
+            <label for="client_id">Client ID</label>
+            <input type="text" class="form-control" id="client_id" name="client_id" placeholder="Enter Client ID">
+            <hr/>
+            <input type ="submit" value = "Retrieve Client" class ="btn btn-info">
+        </div>
+        </form>
+    </div>
+  
+</div>
+</div> 
+
+{% endblock content %}
+

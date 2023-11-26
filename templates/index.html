@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head %}
+    <meta name = "description" content="Home page for STI data collection">
+{% endblock head %}
+{% block title %}<title>Home</title>{% endblock title %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css')}}">
+{% endblock stylesheets %}
+{% block content %}
+
+<div class="container-fluid mt-3">
+    <h1 class="mt-4">STI Data Collection and Reporting System</h1>
+    <p>STI Data Collection and Reporting System is a web application
+         that allows users to collect and report data on STI cases.</p>
+</div>
+{% endblock content %}
+
