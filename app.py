@@ -201,20 +201,81 @@ def retrieve_client():
         if client_id:
             #get the client data from the database
             with engine.connect() as con:
-                result = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
-                client = result.fetchone()
+                result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
+                result_hepatitis = con.execute(text(f"SELECT * FROM hepatitis_b_mothers WHERE unique_id = '{client_id}'"))
+                result_screening_sti = con.execute(text(f"SELECT * FROM client_screening_sti WHERE unique_id = '{client_id}'"))
+                result_treatment_sti = con.execute(text(f"SELECT * FROM client_treatment_sti WHERE unique_id = '{client_id}'"))
+                result_congenital_syphilis_mothers = con.execute(text(f"SELECT * FROM congenital_syphilis_mothers WHERE unique_id = '{client_id}'"))
+                result_congenital_syphilis_infant = con.execute(text(f"SELECT * FROM congenital_syphilis_infant WHERE infant_unique_id = '{client_id}+infant'"))
+                result_partner_management_sti = con.execute(text(f"SELECT * FROM partner_management_sti WHERE unique_id = '{client_id}'"))
+
+                client_profile = result_profile.fetchone()
+                client_hepatitis = result_hepatitis.fetchone()
+                client_screening_sti = result_screening_sti.fetchone()
+                client_treatment_sti = result_treatment_sti.fetchone()
+                client_congenital_syphilis_mothers = result_congenital_syphilis_mothers.fetchone()
+                client_congenital_syphilis_infant = result_congenital_syphilis_infant.fetchone()
+                client_partner_management_sti = result_partner_management_sti.fetchone()
+
                 con.commit()
-            if client:
+            if client_profile and client_hepatitis and client_screening_sti and client_treatment_sti and client_congenital_syphilis_mothers and client_congenital_syphilis_infant and client_partner_management_sti:
                 #display the client data
-                return render_template('profile.html', client = client)
+                return render_template('profile.html', client = client_profile, hepatitis = client_hepatitis, screening_sti = client_screening_sti, treatment_sti = client_treatment_sti, congenital_syphilis_mothers = client_congenital_syphilis_mothers, congenital_syphilis_infant = client_congenital_syphilis_infant, partner_management_sti = client_partner_management_sti)
+                                     
             else:
                 #redirect to the home page
                 msg = 'The client does not exist.'
                 return redirect(url_for('home', msg = msg))
     return redirect(url_for('login'))
     
-    
-
-
-
-       
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    msg=""
+    client_id = request.form['unique_id']
+    if 'loggedin' in session:
+        if client_id:
+            #get the client data from the database
+            with engine.connect() as con:
+                result_profile = con.execute(text(f"SELECT * FROM client_profile WHERE unique_id = '{client_id}'"))
+                client_profile = result_profile.fetchone()
+                con.commit()
+            if client_profile:
+                update_at = datetime.now()
+                updated_by = session['username']
+                first_name = request.form['first_name']
+                last_name = request.form['last_name']
+                middle_name = request.form['middle_name']
+                date_of_birth = request.form['dob']
+                country_of_birth = request.form['country_of_birth']
+                gender = request.form['gender']
+                marital_status = request.form['marital-status']
+                occupation = request.form['occupation']
+                gender_identity = request.form['gender-identity']
+                sexual_orientation = request.form['sexual-orientation']
+                phone_number = request.form['phone']
+                address = request.form['line1']
+                city = request.form['city']
+                state = request.form['state']
+                zip_code = request.form['zip-code']
+                country = request.form['country']
+                email = request.form['email']
+                ethnicity = request.form['ethnicity']
+                race = request.form['race']
+                with engine.connect() as con:
+                    result = con.execute(text(f"UPDATE client_profile SET updated_at = '{update_at}', updated_by = '{updated_by}',\
+                                              first_name = '{first_name}', last_name = '{last_name}',\
+                                                middle_name = '{middle_name}', date_of_birth = '{date_of_birth}',\
+                                                country_of_birth = '{country_of_birth}', gender = '{gender}',\
+                                                marital_status = '{marital_status}', occupation = '{occupation}',\
+                                                gender_identity ='{gender_identity}', sexual_orientation = '{sexual_orientation}',\
+                                                phone_number = '{phone_number}', address = '{address}', city = '{city}',\
+                                                state = '{state}', zip_code = '{zip_code}', country = '{country}',\
+                                                email = '{email}', ethnicity = '{ethnicity}', race ='{race}' WHERE unique_id = '{client_id}'"))
+                    con.commit()
+                msg = "Client profile updated successfully"
+                return render_template('home.html', msg=msg)
+                
+            else:
+                #redirect to the home page
+                msg = 'The client does not exist.'
+                return redirect(url_for('home', msg = msg))
